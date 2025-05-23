@@ -10,7 +10,7 @@ module.exports = async function (req, res) {
   const database = new sdk.Databases(client);
   console.log("Raw req", req.req.bodyJson.email);
   console.log("req bodyJson", req.bodyJson);
-  const email = req.bodyJson.email;
+  const email = req.req.bodyJson.email;
   console.log("email:", email);
   if (!email) {
     return res.json({ success: false, message: "Email is required" });
