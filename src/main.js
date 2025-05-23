@@ -35,9 +35,9 @@ module.exports = async function ({ req, res }) {
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
     const sendSmtpEmail = {
       to: [{ email }],
-      sender: { name: "Your App", email: "theonepieceisreal0777@gmail.com" },
+      sender: { name: "Appwrite", email: "theonepieceisreal0777@gmail.com" },
       subject: "Your OTP Code",
-      htmlContent: `<p>Hello, your OTP is <strong>${otp}</strong>. It will expire in 5 minutes.</p>`,
+      htmlContent: `<p>Hello, your OTP is <strong>${otp}</strong>.</p>`,
     };
 
     const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
