@@ -45,7 +45,8 @@ module.exports = async function ({ req, res }) {
   };
 
   try {
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(response);
     return res.send({
       status: 200,
       body: { success: true, message: "OTP sent" },
