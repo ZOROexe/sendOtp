@@ -1,19 +1,22 @@
 const sdk = require("node-appwrite");
 const SibApiV3Sdk = require("sib-api-v3-sdk");
 
-module.exports = async function (req, res) {
+module.exports = async function ({ req, res }) {
   const client = new sdk.Client()
     .setEndpoint(process.env.APPWRITE_ENDPOINT)
     .setProject(process.env.APPWRITE_PROJECT_ID)
     .setKey(process.env.APPWRITE_API_KEY);
 
   const database = new sdk.Databases(client);
-  console.log("Raw req", req.req.bodyJson.email);
+  console.log("Raw req", req.bodyJson.email);
   console.log("req bodyJson", req.bodyJson);
-  const email = req.req.bodyJson.email;
+  const email = req.bodyJson.email;
   console.log("email:", email);
   if (!email) {
-    return res.json({ success: false, message: "Email is required" });
+    return res.send({
+      status: 400,
+      body: { success: false, message: "Email is required" },
+    });
   }
 
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -43,12 +46,18 @@ module.exports = async function (req, res) {
 
   try {
     await apiInstance.sendTransacEmail(sendSmtpEmail);
-    return res.json({ success: true, message: "OTP sent" });
+    return res.send({
+      status: 200,
+      body: { success: true, message: "OTP sent" },
+    });
   } catch (error) {
-    return res.json({
-      success: false,
-      message: "Email failed",
-      error: error.message,
+    return res.send({
+      status: 500,
+      body: {
+        success: false,
+        message: "Email failed",
+        error: error.message,
+      },
     });
   }
 };
